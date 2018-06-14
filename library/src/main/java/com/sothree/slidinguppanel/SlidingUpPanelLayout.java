@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -22,6 +23,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
+import com.jzb.common.LogTool;
 import com.sothree.slidinguppanel.library.R;
 
 import java.util.List;
@@ -728,6 +730,17 @@ public class SlidingUpPanelLayout extends ViewGroup {
         final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+
+        LogTool.getInstance().s("displayMetrics.width==>", displayMetrics.widthPixels
+                , "     displayMetrics.height==>", displayMetrics.heightPixels
+        );
+
+        LogTool.getInstance().s("widthMeasureSpec==>", MeasureSpec.toString(widthMeasureSpec)
+                , "     heightMeasureSpec==>", MeasureSpec.toString(heightMeasureSpec)
+        );
+
+        //一般是这两种情况
         if (widthMode != MeasureSpec.EXACTLY && widthMode != MeasureSpec.AT_MOST) {
             throw new IllegalStateException("Width must have an exact value or MATCH_PARENT");
         } else if (heightMode != MeasureSpec.EXACTLY && heightMode != MeasureSpec.AT_MOST) {
@@ -736,6 +749,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
         final int childCount = getChildCount();
 
+        //布局约束 只能有两个子布局
         if (childCount != 2) {
             throw new IllegalStateException("Sliding up panel layout must have exactly 2 children!");
         }
@@ -1099,7 +1113,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     public void setPanelState(PanelState state) {
 
         // Abort any running animation, to allow state change
-        if(mDragHelper.getViewDragState() == ViewDragHelper.STATE_SETTLING){
+        if (mDragHelper.getViewDragState() == ViewDragHelper.STATE_SETTLING) {
             Log.d(TAG, "View is settling. Aborting animation.");
             mDragHelper.abort();
         }
@@ -1186,6 +1200,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         boolean result;
+        @SuppressLint("WrongConstant")
         final int save = canvas.save(Canvas.CLIP_SAVE_FLAG);
 
         if (mSlideableView != null && mSlideableView != child) { // if main view
@@ -1311,11 +1326,13 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     @Override
     protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
+        LogTool.getInstance().s("====== generateDefaultLayoutParams");
         return new LayoutParams();
     }
 
     @Override
     protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
+        LogTool.getInstance().s("====== generateLayoutParams(ViewGroup.LayoutParams p)");
         return p instanceof MarginLayoutParams
                 ? new LayoutParams((MarginLayoutParams) p)
                 : new LayoutParams(p);
@@ -1323,11 +1340,13 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     @Override
     protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
+        LogTool.getInstance().s("====== checkLayoutParams(ViewGroup.LayoutParams p)");
         return p instanceof LayoutParams && super.checkLayoutParams(p);
     }
 
     @Override
     public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
+        LogTool.getInstance().s("====== generateLayoutParams(AttributeSet attrs)");
         return new LayoutParams(getContext(), attrs);
     }
 
