@@ -1,0 +1,29 @@
+switchToState===>HOME                                                                                                                                                                                                          pjwFocus debug StateMachine[MainActivity.lambda$showTargetPage$1:344==>(StateMachine:69@main) : ]
+switchToState===>WAIT                                                                                                                                                                                                          pjwFocus debug StateMachine[OrderReinstateController.switchToState:139==>(StateMachine:69@main) : ]
+switchToState===>HOME                                                                                                                                                                                                          pjwFocus debug StateMachine[MainActivity.lambda$showTargetPage$1:344==>(StateMachine:69@main) : ]
+
+恢复订单控制器 switchToState===>
+
+{"userBill":{"orderBase":{"toAddress":"北京西站","phone":"18911001439","orderId":"098466802738143239887759100000","orderChannel":"QCSC","fromAddress":"原创天地望京科创园","currentChannel":"QCSC","cityId":1000000001,"createTime":1523598127000,"cancelTime":0,"tlng":116.322062,"flat":40.00899,"flng":116.488855,"tlat":39.894914,"nowTime":0,"canComplain":1,"canComment":0,"orderInit":0,"orderStatus":3,"payStatus":0,"payType":1,"bizType":1,"reassignStatus":0,"cancelStatus":0,"dispatchFee":0,"anomalyStatus":0},"orderDriver":{"orderId":"098466802738143239887759100000","name":"云师傅","carColor":"黑色","carType":"法拉利California","companyName":"","mobile":"18618194623","lpn":"京N**001","firstLpn":"京N","lastLpn":"001","hideCount":2,"driverId":29061011,"finish":41,"canPhone":1,"bizType":1}}}
+
+ pjwFocus debug OrderReinstateController[OrderReinstateController.lambda$tryReinstateOrder$0:102
+==>(OrderReinstateController:133@main) : ]
+
+
+switchToState===>WAIT                                                                                                                                                                                                          pjwFocus debug StateMachine[OrderReinstateController.switchToState:143==>(StateMachine:69@main) : ]
+
+
+---司机已到达
+04-13 14:32:17.023 25826-25826/com.meituan.qcs.c.android E/pjwdev: 恢复订单控制器 switchToState===>
+
+{"userBill":{"orderBase":{"toAddress":"北京西站","phone":"18911001439","orderId":"098466802738143239887759100000","orderChannel":"QCSC","fromAddress":"原创天地望京科创园","currentChannel":"QCSC","cityId":1000000001,"createTime":1523598127000,"cancelTime":0,"tlng":116.322062,"flat":40.00899,"flng":116.488855,"tlat":39.894914,"nowTime":0,"canComplain":1,"canComment":0,"orderInit":0,"orderStatus":4,"payStatus":0,"payType":1,"bizType":1,"reassignStatus":0,"cancelStatus":0,"dispatchFee":0,"anomalyStatus":0},"orderDriver":{"orderId":"098466802738143239887759100000","name":"云师傅","carColor":"黑色","carType":"法拉利California","companyName":"","mobile":"18618194623","lpn":"京N**001","firstLpn":"京N","lastLpn":"001","hideCount":2,"driverId":29061011,"finish":41,"canPhone":1,"bizType":1}}}
+
+ pjwFocus debug OrderReinstateController[OrderReinstateController.lambda$tryReinstateOrder$0:102==>(OrderReinstateController:133@main) : ]
+
+
+
+恢复订单控制器 switchToState===>{"userBill":{"orderBase":{"toAddress":"北京西站","phone":"18911001439","orderId":"098466802738143239887759100000","orderChannel":"QCSC","fromAddress":"原创天地望京科创园","currentChannel":"QCSC","cityId":1000000001,"createTime":1523598127000,"cancelTime":0,"tlng":116.322062,"flat":40.00899,"flng":116.488855,"tlat":39.894914,"nowTime":0,"canComplain":1,"canComment":0,"orderInit":0,"orderStatus":4,"payStatus":0,"payType":1,"bizType":1,"reassignStatus":0,"cancelStatus":0,"dispatchFee":0,"anomalyStatus":0},"orderDriver":{"orderId":"098466802738143239887759100000","name":"云师傅","carColor":"黑色","carType":"法拉利California","companyName":"","mobile":"18618194623","lpn":"京N**001","firstLpn":"京N","lastLpn":"001","hideCount":2,"driverId":29061011,"finish":41,"canPhone":1,"bizType":1}}} pjwFocus debug OrderReinstateController[OrderReinstateController.lambda$tryReinstateOrder$0:102==>(OrderReinstateController:133@main) : ]
+
+恢复订单控制器 switchToState===>{"userBill":{"orderBase":{"toAddress":"北京西站","phone":"18911001439","orderId":"098466802738143239887759100000","orderChannel":"QCSC","fromAddress":"原创天地望京科创园","currentChannel":"QCSC","cityId":1000000001,"createTime":1523598127000,"cancelTime":0,"tlng":116.322062,"flat":40.00899,"flng":116.488855,"tlat":39.894914,"nowTime":0,"canComplain":1,"canComment":0,"orderInit":0,"orderStatus":5,"payStatus":0,"payType":1,"bizType":1,"reassignStatus":0,"cancelStatus":0,"dispatchFee":0,"anomalyStatus":0},"orderDriver":{"orderId":"098466802738143239887759100000","name":"云师傅","carColor":"黑色","carType":"法拉利California","companyName":"","mobile":"18618194623","lpn":"京N**001","firstLpn":"京N","lastLpn":"001","hideCount":2,"driverId":29061011,"finish":41,"canPhone":1,"bizType":1}}} pjwFocus debug OrderReinstateController[OrderReinstateController.lambda$tryReinstateOrder$0:102==>(OrderReinstateController:133@main) : ]
+
+switchToState===>DRIVING                                                                                                                                                                                                       pjwFocus debug StateMachine[OrderReinstateController.switchToState:143==>(StateMachine:69@main) : ]

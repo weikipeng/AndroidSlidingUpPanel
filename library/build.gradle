@@ -13,6 +13,7 @@ dependencies {
 //   compile 'com.android.support:support-v4:26.0.2'
 //    compile 'com.android.support:support-annotations:26.0.2'
 //    compile 'com.android.support:recyclerview-v7:26.0.2'
+    api project(":modules:common:log")
     api deps.support.v4
     api deps.support.appCompat
     api deps.support.annotations

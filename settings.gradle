@@ -1,2 +1,3 @@
 include ':library'
 include ':demo'
+include ':modules:common:log'
