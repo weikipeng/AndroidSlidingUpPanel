@@ -29,6 +29,8 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 
+import com.jzb.common.LogTool;
+
 import java.util.Arrays;
 
 /**
@@ -585,6 +587,8 @@ public class ViewDragHelper {
      * @return true if animation should continue through {@link #continueSettling(boolean)} calls
      */
     public boolean settleCapturedViewAt(int finalLeft, int finalTop) {
+        LogTool.getInstance().s("ViewDragHelper settleCapturedViewAt==> finalLeft:",finalLeft
+        ,"      finalTop==>",finalTop);
         if (!mReleaseInProgress) {
             throw new IllegalStateException("Cannot settleCapturedViewAt outside of a call to " +
                     "Callback#onViewReleased");

@@ -190,6 +190,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private float mSlideOffset;
 
     /**
+     * 可以拖动的距离px
      * How far in pixels the slideable panel may move.
      */
     private int mSlideRange;
@@ -200,6 +201,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private float mAnchorPoint = 1.f;
 
     /**
+     * 禁止拖动
      * A panel view is locked into internal scrolling or another condition that
      * is preventing a drag.
      */
@@ -730,15 +732,15 @@ public class SlidingUpPanelLayout extends ViewGroup {
         final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-
-        LogTool.getInstance().s("displayMetrics.width==>", displayMetrics.widthPixels
-                , "     displayMetrics.height==>", displayMetrics.heightPixels
-        );
-
-        LogTool.getInstance().s("widthMeasureSpec==>", MeasureSpec.toString(widthMeasureSpec)
-                , "     heightMeasureSpec==>", MeasureSpec.toString(heightMeasureSpec)
-        );
+//        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+//
+//        LogTool.getInstance().s("onMeasure      displayMetrics.width==>", displayMetrics.widthPixels
+//                , "     displayMetrics.height==>", displayMetrics.heightPixels
+//        );
+//
+//        LogTool.getInstance().s("onMeasure      widthMeasureSpec==>", MeasureSpec.toString(widthMeasureSpec)
+//                , "     heightMeasureSpec==>", MeasureSpec.toString(heightMeasureSpec)
+//        );
 
         //一般是这两种情况
         if (widthMode != MeasureSpec.EXACTLY && widthMode != MeasureSpec.AT_MOST) {
@@ -821,6 +823,12 @@ public class SlidingUpPanelLayout extends ViewGroup {
             }
         }
 
+        LogTool.getInstance().s("onMeasure===>      ", "     mSlideRange:", mSlideRange
+                , "\nmSlideableView.getMeasuredHeight()===>", mSlideableView.getMeasuredHeight()
+                , "\nmPanelHeight===>", mPanelHeight
+                , "\nmSlideableView===>", mSlideableView
+        );
+
         setMeasuredDimension(widthSize, heightSize);
     }
 
@@ -875,6 +883,18 @@ public class SlidingUpPanelLayout extends ViewGroup {
             final int childRight = childLeft + child.getMeasuredWidth();
 
             child.layout(childLeft, childTop, childRight, childBottom);
+            if (child == mSlideableView) {
+                LogTool.getInstance().s("开始布局       onLayout===>      ", ""
+                        , "\nchildHeight===>", childHeight
+                        , "\nchildLeft===>", childLeft
+                        , "\nchildTop===>", childTop
+                        , "\nchildRight===>", childRight
+                        , "\nchildBottom===>", childBottom
+                        , "\nmFirstLayout===>", mFirstLayout
+                        , "\nmSlideState===>", mSlideState
+                        , "\nchild===>", child
+                );
+            }
         }
 
         if (mFirstLayout) {
@@ -1076,6 +1096,24 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private int computePanelTopPosition(float slideOffset) {
         int slidingViewHeight = mSlideableView != null ? mSlideableView.getMeasuredHeight() : 0;
         int slidePixelOffset = (int) (slideOffset * mSlideRange);
+
+//        LogTool.getInstance().s("计算面板顶部位置       computePanelTopPosition===>      ", ""
+//                , "     mIsSlidingUp===>", mIsSlidingUp
+//                , "     slideOffset===>", slideOffset
+//                , "     mSlideableView===>", mSlideableView
+//                , "     mSlideRange===>", mSlideRange
+//                , "     "
+//                , "     slidingViewHeight===>", slidingViewHeight
+//                , "     getMeasuredHeight===>", getMeasuredHeight()
+//                , "     getPaddingTop===>", getPaddingTop()
+//                , "     getPaddingBottom===>", getPaddingBottom()
+//                , "     mPanelHeight===>", mPanelHeight
+//                , "     slidePixelOffset===>", slidePixelOffset
+//                , "     return===>", (mIsSlidingUp
+//                        ? getMeasuredHeight() - getPaddingBottom() - mPanelHeight - slidePixelOffset
+//                        : getPaddingTop() - slidingViewHeight + mPanelHeight + slidePixelOffset)
+//        );
+
         // Compute the top of the panel if its collapsed
         return mIsSlidingUp
                 ? getMeasuredHeight() - getPaddingBottom() - mPanelHeight - slidePixelOffset
@@ -1086,6 +1124,10 @@ public class SlidingUpPanelLayout extends ViewGroup {
      * Computes the slide offset based on the top position of the panel
      */
     private float computeSlideOffset(int topPosition) {
+        LogTool.getInstance().s("计算面板留白距离       computeSlideOffset===>      ", ""
+                , "topPosition===>", topPosition
+        );
+
         // Compute the panel top position if the panel is collapsed (offset 0)
         final int topBoundCollapsed = computePanelTopPosition(0);
 
@@ -1111,7 +1153,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
      * @param state - new panel state
      */
     public void setPanelState(PanelState state) {
-
+        LogTool.getInstance().s("SlidingUpPanelLayout==>setPanelState000000:",state);
         // Abort any running animation, to allow state change
         if (mDragHelper.getViewDragState() == ViewDragHelper.STATE_SETTLING) {
             Log.d(TAG, "View is settling. Aborting animation.");
@@ -1135,15 +1177,19 @@ public class SlidingUpPanelLayout extends ViewGroup {
             }
             switch (state) {
                 case ANCHORED:
+                    LogTool.getInstance().s("SlidingUpPanelLayout==>setPanelState:","   ANCHORED");
                     smoothSlideTo(mAnchorPoint, 0);
                     break;
                 case COLLAPSED:
+                    LogTool.getInstance().s("SlidingUpPanelLayout==>setPanelState:","   COLLAPSED");
                     smoothSlideTo(0, 0);
                     break;
                 case EXPANDED:
+                    LogTool.getInstance().s("SlidingUpPanelLayout==>setPanelState:","   EXPANDED");
                     smoothSlideTo(1.0f, 0);
                     break;
                 case HIDDEN:
+                    LogTool.getInstance().s("SlidingUpPanelLayout==>setPanelState:","   HIDDEN");
                     int newTop = computePanelTopPosition(0.0f) + (mIsSlidingUp ? +mPanelHeight : -mPanelHeight);
                     smoothSlideTo(computeSlideOffset(newTop), 0);
                     break;
@@ -1200,8 +1246,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         boolean result;
-        @SuppressLint("WrongConstant")
-        final int save = canvas.save(Canvas.CLIP_SAVE_FLAG);
+        @SuppressLint("WrongConstant") final int save = canvas.save(Canvas.CLIP_SAVE_FLAG);
 
         if (mSlideableView != null && mSlideableView != child) { // if main view
             // Clip against the slider; no sense drawing what will immediately be covered,
@@ -1379,6 +1424,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
         @Override
         public void onViewDragStateChanged(int state) {
+            LogTool.getInstance().s("DragHelperCallback==>onViewDragStateChanged000:",state);
             if (mDragHelper != null && mDragHelper.getViewDragState() == ViewDragHelper.STATE_IDLE) {
                 mSlideOffset = computeSlideOffset(mSlideableView.getTop());
                 applyParallaxForCurrentSlideOffset();
@@ -1386,31 +1432,52 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 if (mSlideOffset == 1) {
                     updateObscuredViewVisibility();
                     setPanelStateInternal(PanelState.EXPANDED);
+                    LogTool.getInstance().s("DragHelperCallback==>onViewDragStateChanged111:    PanelState.EXPANDED");
                 } else if (mSlideOffset == 0) {
                     setPanelStateInternal(PanelState.COLLAPSED);
                 } else if (mSlideOffset < 0) {
                     setPanelStateInternal(PanelState.HIDDEN);
                     mSlideableView.setVisibility(View.INVISIBLE);
+                    LogTool.getInstance().s("DragHelperCallback==>onViewDragStateChanged111:    PanelState.COLLAPSED");
                 } else {
                     updateObscuredViewVisibility();
                     setPanelStateInternal(PanelState.ANCHORED);
+                    LogTool.getInstance().s("DragHelperCallback==>onViewDragStateChanged111:    PanelState.ANCHORED");
                 }
             }
         }
 
         @Override
         public void onViewCaptured(View capturedChild, int activePointerId) {
+            LogTool.getInstance().s("DragHelperCallback==>onViewCaptured:"
+                    ,"    capturedChild:",capturedChild
+                    ,"    activePointerId:",activePointerId
+            );
             setAllChildrenVisible();
         }
 
         @Override
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+            LogTool.getInstance().s("视图位置发生改变               DragHelperCallback==>onViewPositionChanged:"
+                    ,"    left:",left
+                    ,"    top:",top
+                    ,"    dx:",dx
+                    ,"    dy:",dy
+                    ,"    changedView:",changedView
+            );
+
             onPanelDragged(top);
             invalidate();
         }
 
         @Override
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            LogTool.getInstance().s("松开视图                       DragHelperCallback==>onViewReleased:"
+                    ,"    xvel:",xvel
+                    ,"    yvel:",yvel
+                    ,"    releasedChild:",releasedChild
+            );
+
             int target = 0;
 
             // direction is always positive if we are sliding in the expanded direction
@@ -1447,6 +1514,10 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
         @Override
         public int getViewVerticalDragRange(View child) {
+            LogTool.getInstance().s("获取滑动范围                       DragHelperCallback==>getViewVerticalDragRange:"
+                    ,"    mSlideRange:",mSlideRange
+            );
+
             return mSlideRange;
         }
 
@@ -1455,8 +1526,22 @@ public class SlidingUpPanelLayout extends ViewGroup {
             final int collapsedTop = computePanelTopPosition(0.f);
             final int expandedTop = computePanelTopPosition(1.0f);
             if (mIsSlidingUp) {
+                LogTool.getInstance().s("获取滑动纵向坐标         展开              DragHelperCallback==>clampViewPositionVertical:"
+                        ,"    mIsSlidingUp:",mIsSlidingUp
+                        ,"    top:",top
+                        ,"    expandedTop:",expandedTop
+                        ,"    collapsedTop:",collapsedTop
+                );
+
                 return Math.min(Math.max(top, expandedTop), collapsedTop);
             } else {
+                LogTool.getInstance().s("获取滑动纵向坐标          收起             DragHelperCallback==>clampViewPositionVertical:"
+                        ,"    mIsSlidingUp:",mIsSlidingUp
+                        ,"    top:",top
+                        ,"    expandedTop:",expandedTop
+                        ,"    collapsedTop:",collapsedTop
+                );
+
                 return Math.min(Math.max(top, collapsedTop), expandedTop);
             }
         }
