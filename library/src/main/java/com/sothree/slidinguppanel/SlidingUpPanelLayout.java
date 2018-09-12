@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -345,7 +346,8 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
         setWillNotDraw(false);
 
-        mDragHelper = ViewDragHelper.create(this, 0.5f, scrollerInterpolator, new DragHelperCallback());
+//        mDragHelper = ViewDragHelper.create(this, 0.5f, scrollerInterpolator, new DragHelperCallback());
+        mDragHelper = ViewDragHelper.create(this, 0.5f, new DragHelperCallback());
         mDragHelper.setMinVelocity(mMinFlingVelocity * density);
 
         mIsTouchEnabled = true;
@@ -957,7 +959,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 // If the dragView is still dragging when we get here, we need to call processTouchEvent
                 // so that the view is settled
                 // Added to make scrollable views work (tokudu)
-                if (mDragHelper.isDragging()) {
+                if (mDragHelper.getViewDragState() == ViewDragHelper.STATE_DRAGGING) {
                     mDragHelper.processTouchEvent(ev);
                     return true;
                 }
@@ -1058,7 +1060,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 // Was the panel handling the touch previously?
                 // Then we need to rejigger things so that the
                 // child gets a proper down event.
-                if (!mIsScrollableViewHandlingTouch && mDragHelper.isDragging()) {
+                if (!mIsScrollableViewHandlingTouch && mDragHelper.getViewDragState() == ViewDragHelper.STATE_DRAGGING) {
                     mDragHelper.cancel();
                     ev.setAction(MotionEvent.ACTION_DOWN);
                 }
@@ -1070,7 +1072,8 @@ public class SlidingUpPanelLayout extends ViewGroup {
             // If the scrollable view was handling the touch and we receive an up
             // we want to clear any previous dragging state so we don't intercept a touch stream accidentally
             if (mIsScrollableViewHandlingTouch) {
-                mDragHelper.setDragState(ViewDragHelper.STATE_IDLE);
+//                mDragHelper.setDragState(ViewDragHelper.STATE_IDLE);
+                mDragHelper.abort();
             }
         }
 
