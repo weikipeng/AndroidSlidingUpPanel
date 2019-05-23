@@ -17,13 +17,13 @@ android {
 dependencies {
 //  compile 'com.android.support:support-v4:26.0.2'
 //  compile 'com.android.support:appcompat-v7:26.0.2'
-  api deps.support.v4
-  api deps.support.appCompat
+  compile deps.support.v4
+  compile deps.support.appCompat
 
 
   //pengjunwei 自定义添加
-  implementation deps.stetho.core
+  compile deps.stetho.core
 
-  api project(':library')
+  compile project(':library')
 
 }

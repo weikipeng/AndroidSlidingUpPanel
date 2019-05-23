@@ -5,12 +5,22 @@ buildscript {
             dirs 'libs'
         }
         mavenLocal()
-        google()
+//        google()
         jcenter()
+
+        maven {
+            url 'http://depot.sankuai.com/nexus/content/groups/public'
+        }
+        maven {
+            url "http://mvn.dianpingoa.com/android-nova"
+        }
+        maven {
+            url "https://oss.sonatype.org/content/groups/public"
+        }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'com.android.tools.build:gradle:2.3.1'
     }
 }
 
@@ -27,26 +37,36 @@ allprojects {
             dirs 'libs'
         }
         mavenLocal()
-        google()
+//        google()
         jcenter()
+
+        maven {
+            url 'http://depot.sankuai.com/nexus/content/groups/public'
+        }
+        maven {
+            url "http://mvn.dianpingoa.com/android-nova"
+        }
+        maven {
+            url "https://oss.sonatype.org/content/groups/public"
+        }
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.3'
-    distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
-}
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '3.3'
+//    distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
+//}
 
 // Define versions in a single place
 // 在一个地方定义所有工具的版本号
 ext.versions = [
         // Sdk and tools
-        'compileSdk'               : 27,
-        'buildTools'               : '27.0.3',
-        'minSdk'                   : 14,
-        'targetSdk'                : 27,
+        'compileSdk'               : 26,
+        'buildTools'               : '26.0.2',
+        'minSdk'                   : 16,
+        'targetSdk'                : 26,
 
-        'supportLibrary'           : '27.1.1',
+        'supportLibrary'           : '26.0.2',
         'supportTestLibraryVersion': '0.5',
         'constraint'               : '1.0.2',
         'dagger'                   : '1.2.5',

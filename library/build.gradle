@@ -5,19 +5,31 @@ repositories {
         dirs 'libs'
     }
     mavenLocal()
-    google()
+//    google()
     jcenter()
+    maven {
+        url 'http://depot.sankuai.com/nexus/content/groups/public'
+    }
+    maven {
+        url "http://mvn.dianpingoa.com/android-nova"
+    }
+    maven {
+        url "https://oss.sonatype.org/content/groups/public"
+    }
 }
 
 dependencies {
 //   compile 'com.android.support:support-v4:26.0.2'
 //    compile 'com.android.support:support-annotations:26.0.2'
 //    compile 'com.android.support:recyclerview-v7:26.0.2'
-    api project(":modules:common:log")
-    api deps.support.v4
-    api deps.support.appCompat
-    api deps.support.annotations
-    api deps.support.recyclerView
+//    compile project(":modules:common:log")
+    //pengjunwei 自定义添加
+    compile 'com.meituan.android.qcsc.wei:appmonitor:1.0'
+
+    compile deps.support.v4
+    compile deps.support.appCompat
+    compile deps.support.annotations
+    compile deps.support.recyclerView
 }
 
 android {
